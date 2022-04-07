@@ -3,20 +3,17 @@ import { Pool }  from 'pg';
 
 dotenv.config();
 
-const { Host, Database,POSTGRES_TEST_DB, User, Password, NODE_ENV } = process.env;
+const { Host, Database,POSTGRES_TEST_DB, User, Password, NODE_ENV, DATABASE_URL } = process.env;
 
 let client: Pool;
-console.log('ENV ', NODE_ENV)
-if (NODE_ENV === "test") {
-  console.log('I am in test mode');
+
+if (NODE_ENV === "production") {
+  const connectionString = DATABASE_URL;
   client = new Pool({
-    host: Host,
-    database: POSTGRES_TEST_DB,
-    user: User,
-    password: Password,
+    connectionString,
   });
-}
-else{
+} 
+else if (NODE_ENV === "development") {
   client = new Pool({
     host: Host,
     database: Database,
@@ -24,8 +21,14 @@ else{
     password: Password,
   });
 } 
-  
-
+else {
+  client = new Pool({
+    host: Host,
+    database: POSTGRES_TEST_DB,
+    user: User,
+    password: Password,
+  });
+} 
 
 export default client;
 
