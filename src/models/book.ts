@@ -12,7 +12,6 @@ export type Book = {
 export class BookStore {
   async index(): Promise<Book[]> {
     try {
-			// @ts-ignore
 			const conn = await client.connect();
 			const sql  = 'SELECT * FROM books';
 			const result = await conn.query(sql);
@@ -28,7 +27,7 @@ export class BookStore {
 	async show (id: string): Promise<Book> {
 		try {
 			const sql = 'SELECT * FROM books WHERE id = ($1)';
-			// @ts-ignore
+			
 			const conn = await client.connect();
 
 			const result  = await conn.query(sql, [id]);
@@ -46,7 +45,7 @@ export class BookStore {
 	async create (b: Book): Promise<Book> {
 		try {
 			const sql = 'INSERT INTO books (title, author, total_pages, type, summary) VALUES ($1, $2, $3, $4, $5) RETURNING *';
-			//@ts-ignore
+			
 			const conn = await client.connect();
 			const result = await conn.query(sql, [b.title, b.author, b.totalPages, b.type, b.summary]);
 			const book = result.rows[0];
@@ -74,10 +73,10 @@ export class BookStore {
 	async update (id: string, title: string, author: string): Promise<Book> {
 		try {
 			const sql = 'UPDATE books SET title = ($1), author = ($2) WHERE id = ($3) RETURNING *';
-			//@ts-ignore
+			
 			const conn = await client.connect();
 			const result = await conn.query(sql, [title, author, id]);
-			console.log('KKK ',title, author, id, result)
+			
 			const book = result.rows[0];
 			conn.release()
 			return book;

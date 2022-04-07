@@ -23,7 +23,7 @@ export class MythicalWeaponStore {
   }
 
   async create(weapon : Weapon) {
-    // @ts-ignore
+  
     const conn = await client.connect();
 
     const text = "INSERT INTO mythical_weapons(name, type, weight) VALUES($1, $2, $3) RETURNING *";

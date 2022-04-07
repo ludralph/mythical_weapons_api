@@ -11,7 +11,7 @@ const pepper = process.env.BCRYPT_PASSWORD;
 export class UserStore {
   async index(): Promise<User[]> {
     try {
-      // @ts-ignore
+
       const conn = await client.connect();
       const sql = "SELECT * FROM users";
       const result = await conn.query(sql);
@@ -41,7 +41,7 @@ export class UserStore {
 
   async create(user: User): Promise<User> {
     try {
-      //@ts-ignore
+  
       const conn = await client.connect();
       // const saltRounds = process.env.SALT_ROUNDS;
 
@@ -57,7 +57,7 @@ export class UserStore {
   }
 
   async authenticate(username: string, password: string): Promise<User | null> {
-    //@ts-ignore
+
     const conn = await client.connect();
     const sql = "SELECT password_digest FROM users where username = ($1)";
     const result = await conn.query(sql, [username]);

@@ -11,7 +11,7 @@ export type Order = {
 export class OrderStore {
   async index(): Promise<Order[]> {
     try {
-      // @ts-ignore
+      
       const conn = await client.connect();
       const sql = `SELECT * FROM orders`;
       const result = await conn.query(sql);
@@ -28,7 +28,7 @@ export class OrderStore {
   async show(id: string): Promise<Order> {
     try {
       const sql = "SELECT * FROM orders WHERE id = ($1)";
-      // @ts-ignore
+  
       const conn = await client.connect();
 
       const result = await conn.query(sql, [id]);
@@ -57,7 +57,7 @@ export class OrderStore {
 
   async addProduct(quantity: number, orderId: string, productId: string) : Promise<Order>{
     try {
-        // @ts-ignore
+        
         const conn = await client.connect();
         const sql = 'INSERT INTO order_products (order_id, product_id, quantity) VALUES ($1,$2,$3) RETURNING *';
 

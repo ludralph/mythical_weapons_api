@@ -1,8 +1,9 @@
-import express, { request, Request, Response } from "express";
+import express, { NextFunction, request, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 import { User, UserStore } from "../models/user";
 
 const store = new UserStore();
+const tokenSecret = String(process.env.TOKEN_SECRET);
 
 const index = async (req:Request, res: Response) => {
   const users = await store.index();
@@ -26,7 +27,7 @@ const create = async (req: Request, res: Response) => {
   };
   try {
     const newUser = await store.create(user);
-		const token = jwt.sign({ user: newUser }, process.env.TOKEN_SECRET);
+		const token = jwt.sign({ user: newUser }, tokenSecret);
     res.json(token);
   } catch (error) {
     res.status(400);
@@ -41,7 +42,7 @@ const authenticate = async (req: Request, res: Response) => {
   }
   try {
 		const authenticatedUser = await store.authenticate(req.body.username, req.body.password);
-    const token = jwt.sign({user: authenticatedUser }, process.env.TOKEN_SECRET);
+    const token = jwt.sign({user: authenticatedUser }, tokenSecret);
 		res.json(token)
 	} catch (error) {
     console.log('auth ',error)
@@ -50,11 +51,12 @@ const authenticate = async (req: Request, res: Response) => {
 	}
 }
 
-export const verifyAuthToken = (req:Request, res: Response, next ) => {
+export const verifyAuthToken = (req:Request, res: Response, next: NextFunction ) => {
   try {
+
         const authorizationHeader = req.headers.authorization
-        const token = authorizationHeader?.split(' ')[1]
-        const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+        const token = String(authorizationHeader?.split(' ')[1])
+        const decoded = jwt.verify(token, tokenSecret)
         next();
     } catch (error) {
       console.log('KK ', error)
