@@ -12,6 +12,7 @@
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
     "test": "NODE_ENV=test db-migrate --env test up && jasmine-ts && db-migrate db:drop test",
     "tsc": "tsc",
+    "build": "heroku run db-migrate up",
     "deploy": "git add . && git commit -m Heroku && git push heroku master"
   },
   "author": "Stutern",
