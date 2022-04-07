@@ -10,6 +10,7 @@ import user_routes from "./handlers/user";
 
 const app: express.Application = express();
 const address: string = "0.0.0.0:3000";
+const PORT =  process.env.PORT 
 
 app.use(cors());
 
@@ -21,6 +22,6 @@ orderRoutes(app);
 productRoutes(app);
 
 
-app.listen(3000, function () {
+app.listen(PORT || 3000, function () {
   console.log(`starting app on: ${address}`);
 });
