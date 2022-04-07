@@ -12,5 +12,9 @@
     "database": "fantasy_worlds_test",
     "user": "magical_user",
     "password": "password123"
+  },
+  "production":{
+    "driver": "pg",
+    "native": "true"
   }
 }
