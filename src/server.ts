@@ -21,7 +21,7 @@ user_routes(app);
 orderRoutes(app);
 productRoutes(app);
 
-
+console.log('ENVIRONMENT VAR ', process.env)
 app.listen(PORT || 3000, function () {
   console.log(`starting app on: ${address}`);
 });
